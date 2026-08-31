@@ -1,0 +1,4 @@
+-Total spent error in the 4th row
+-unknown item in row 7
+-error on the item column in row 15
+-
