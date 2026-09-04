@@ -1,105 +1,48 @@
 import pandas as pd
-import os
-
-from src.validate.rules import (
-    rule_positive_price,
-    rule_duplicate_ids,
-    rule_duplicate_rows,
-    rule_valid_date,
-    rule_missing_market,
-    rule_known_commodity
-)
 
 
-df = pd.read_csv("data/raw/prices.csv")
+def rule_positive_price(df):
+    failed = df[df["price"] <= 0].copy()
+    failed["Reason"] = "Price must be greater than 0"
+    return failed
 
 
-log = []
+def rule_duplicate_ids(df):
+    failed = df[df["id"].duplicated(keep=False)].copy()
+    failed["Reason"] = "Duplicate record_id"
+    return failed
 
 
-# 1. Positive price
-failed = rule_positive_price(df)
-
-log.append(
-    f"Positive price rule: rejected {len(failed)} rows because price <= 0."
-)
-
-df = df[df["price"] > 0]
+def rule_duplicate_rows(df):
+    failed = df[df.duplicated(keep=False)].copy()
+    failed["Reason"] = "Duplicate row"
+    return failed
 
 
-# 2. Duplicate rows
-failed = rule_duplicate_rows(df)
-
-log.append(
-    f"Duplicate row rule: rejected {len(failed)} duplicate rows."
-)
-
-df = df.drop_duplicates()
+def rule_valid_date(df):
+    dates = pd.to_datetime(df["date"], errors="coerce")
+    failed = df[dates.isna()].copy()
+    failed["Reason"] = "Invalid date"
+    return failed
 
 
-# 3. Duplicate IDs
-failed = rule_duplicate_ids(df)
-
-log.append(
-    f"Duplicate ID rule: rejected {len(failed)} rows with duplicate record IDs."
-)
-
-df = df.drop_duplicates(subset="record_id", keep="first")
+def rule_missing_market(df):
+    failed = df[df["market"].isna()].copy()
+    failed["Reason"] = "Missing market value"
+    return failed
 
 
-# 4. Valid dates
-failed = rule_valid_date(df)
+def rule_known_Commodity(df):
+    known = ["Maize", "Beans","Sorghum", "Wheat", "Rice"]
 
-log.append(
-    f"Valid date rule: rejected {len(failed)} rows with invalid dates."
-)
+    normalized = (
+        df["Commodity"]
+        .astype(str)
+        .str.strip()
+        .str.title()
+    )
 
-df["date"] = pd.to_datetime(df["date"], errors="coerce")
-df = df.dropna(subset=["date"])
+    failed = df[~normalized.isin(known)].copy()
+    failed["Reason"] = "Unknown commodity"
 
-
-# 5. Missing market
-failed = rule_missing_market(df)
-
-log.append(
-    f"Missing market rule: found {len(failed)} rows with missing market values."
-)
-
-# Here we reject rows with missing market
-df = df.dropna(subset=["market"])
-
-
-# 6. Normalize commodity
-failed = rule_known_commodity(df)
-
-df["commodity"] = (
-    df["commodity"]
-    .str.strip()
-    .str.title()
-)
-
-log.append(
-    "Commodity values were normalized by removing whitespace "
-    "and standardizing capitalization."
-)
-
-
-# Create output directory
-os.makedirs("data/processed", exist_ok=True)
-
-
-# Save cleaned data
-df.to_parquet(
-    "data/processed/prices_clean.parquet",
-    index=False
-)
-
-
-# Save log
-with open("cleaning_log.txt", "w") as file:
-    for entry in log:
-        file.write(entry + "\n")
-
-
-print("Cleaning completed.")
-print(df)
+    return failed
