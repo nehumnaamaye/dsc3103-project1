@@ -27,7 +27,7 @@ def rule_valid_date(df):
 
 
 def rule_missing_market(df):
-    failed = df[df["market"].isna()].copy()
+    failed = df[df["markets"].isna()].copy()
     failed["Reason"] = "Missing market value"
     return failed
 
