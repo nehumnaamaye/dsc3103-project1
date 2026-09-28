@@ -29,7 +29,7 @@ def unique_value_counts(df):
     print("\nUnique value counts")
     print("_______________________")
     print(f"Unique ids:        {df['id'].nunique()}")
-    print(f"Unique markets:    {df['markets'].nunique()} -> {sorted(df['markets'].dropna().unique())}")
+    print(f"Unique markets:    {df['market'].nunique()} -> {sorted(df['market'].dropna().unique())}")
     print(f"Unique commodities:{df['Commodity'].nunique()} -> {sorted(df['Commodity'].dropna().unique())}")
 
 
