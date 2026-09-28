@@ -27,7 +27,7 @@ def rule_valid_date(df):
 
 
 def rule_missing_market(df):
-    failed = df[df["markets"].isna()].copy()
+    failed = df[df["market"].isna()].copy()
     failed["Reason"] = "Missing market value"
     return failed
 
@@ -46,3 +46,11 @@ def rule_known_Commodity(df):
     failed["Reason"] = "Unknown commodity"
 
     return failed
+
+def rule_negative_rain(df):
+    negative_rain = df[df["rainfall_mm"] < 0].copy()
+    negative_rain["Reason"] = "Rainfall must be greater than 0"
+    return negative_rain
+
+
+   
