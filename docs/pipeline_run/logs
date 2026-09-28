@@ -1,0 +1,19 @@
+2026-09-25 12:40:44 | INFO | ===Pipeline run started===
+2026-09-25 12:40:44 | INFO | Stage 1: Ingesting source a1
+2026-09-25 12:40:44 | INFO | Source 11:Source a1 ingested rows out:1010
+2026-09-25 12:40:44 | INFO | Stage 2: Ingesting source b
+2026-09-25 12:40:44 | INFO | Source 22:Source a1 ingested rows out:7662
+2026-09-25 12:41:32 | INFO | ===Pipeline run started===
+2026-09-25 12:41:32 | INFO | Stage 1: Ingesting source a1
+2026-09-25 12:41:32 | INFO | Source 11:Source a1 ingested rows out:1010
+2026-09-25 12:41:32 | INFO | Stage 2: Ingesting source b
+2026-09-25 12:41:32 | INFO | Source 22:Source a1 ingested rows out:7662
+2026-09-25 20:37:04 | INFO | ===Pipeline run started===
+2026-09-25 20:37:04 | INFO | Stage 1: Ingesting source a1
+2026-09-25 20:37:04 | INFO | Source 11:Source a1 ingested rows out:1010
+2026-09-25 20:37:04 | INFO | Stage 2: Ingesting source b
+2026-09-25 20:37:04 | INFO | Source 22:Source a1 ingested rows out:7662
+2026-09-25 20:37:04 | INFO | Stage 3: Cleaning source a1 
+2026-09-25 20:37:05 | INFO | Stage 33: Source A cleaned rows in:1010 rows out:938 decisions made:5
+2026-09-25 20:37:05 | INFO | Stage 4: Merging price and rainfall 
+2026-09-25 20:37:05 | INFO | Stage 44: Merged complete: rows in:938 rows out:938
