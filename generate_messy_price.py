@@ -14,7 +14,7 @@ for i in range(1000):
     row= {
        "id": f'fd-{i}' if random.random()>0.02 else f'fd-{i}-1',
        "date": (base_date + timedelta(days=random.randint(0, 1000))).strftime("%Y-%m-%d") if random.random() > 0.03 else random.choice(wrong_date),
-       "markets" : random.choice(markets),
+       "market" : random.choice(markets),
        "Commodity" : random.choice(Commodities),
        "price" : random.randint(500, 25000) if random.random()> 0.05 else random.randint(-5000, -1000)  
 }
@@ -27,6 +27,6 @@ for i in range(1000):
 rows += rows[20:30]
 
 with open("data/raw/prices.csv", "w") as f:
-    writer= csv.DictWriter(f, fieldnames=["id","date","markets","Commodity", "price"])
+    writer= csv.DictWriter(f, fieldnames=["id","date","market","Commodity", "price"])
     writer.writeheader()
     writer.writerows(rows)

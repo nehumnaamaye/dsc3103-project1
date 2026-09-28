@@ -6,9 +6,14 @@ from src.validate.rules import (
     rule_duplicate_rows,
     rule_valid_date,
     rule_missing_market,
-    rule_known_Commodity
+    rule_known_Commodity,
+    rule_negative_rain
 )
 
+from src.ingest.source_a1 import ingest_source_a1
+from src.ingest.source_b import ingest_source_b
+from src.transform.clean import clean_data
+from src.transform.merge import merge_data
 
 # Load the raw dataset
 df = pd.read_csv("data/raw/prices.csv")
@@ -108,3 +113,30 @@ else:
 print("\n======================================")
 print("       VALIDATION CHECK COMPLETE")
 print("======================================")
+
+source_a1_df = ingest_source_a1()
+print(source_a1_df.shape)
+
+
+
+source_b_df = ingest_source_b()
+print("-------rainfall----------")
+print(source_b_df.shape)
+
+clean_prices, _= clean_data()
+print("-------cleaned prices----------")
+print(len(clean_prices))
+
+negative_rain = rule_negative_rain(source_b_df)
+print(len(negative_rain))
+
+print("clean_prices columns:")
+print(clean_prices.columns.tolist())
+
+print("\nsource_b_df columns:")
+print(source_b_df.columns.tolist())
+
+
+merged_data = merge_data(clean_prices, source_b_df)
+print("-------merged data----------")
+print(len(merged_data))
