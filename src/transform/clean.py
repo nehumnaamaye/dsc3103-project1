@@ -47,7 +47,7 @@ def clean_data(path=raw_path):
     # 5. Fill missing market values instead of dropping, so we don't lose price data
     missing_market = rules.rule_missing_market(df)
     if len(missing_market) > 0:
-        df["markets"] = df["markets"].fillna("Unknown")
+        df["market"] = df["market"].fillna("Unknown")
         log.append(f"Filled {len(missing_market)} missing market value(s) with 'Unknown'.")
 
     # 6. Drop rows with non-positive prices (bad/unusable data)
@@ -56,9 +56,15 @@ def clean_data(path=raw_path):
         before = len(df)
         df = df.drop(index=bad_price.index)
         log.append(f"Dropped {before - len(df)} row(s) with non-positive prices.")
+        
+    
+
 
     df = df.reset_index(drop=True)
     return df, log
+
+        
+      
 
 
 def save_clean_data(df, path=data_path):
