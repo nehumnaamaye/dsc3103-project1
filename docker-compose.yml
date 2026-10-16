@@ -1,0 +1,17 @@
+services:
+  ds:
+    build:
+      context: .
+      args:
+        HOST_UID: 1000        # change only if "id -u" printed another number
+    container_name: ds-ubuntu
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8888:8888"
+    volumes:
+      - .:/workspace
+      - ssh-keys:/home/ubuntu/.ssh
+    working_dir: /workspace
+volumes:
+  ssh-keys:
+  

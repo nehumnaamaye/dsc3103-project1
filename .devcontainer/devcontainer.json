@@ -1,0 +1,21 @@
+{
+  "name": "ds-ubuntu",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "ds",
+  "workspaceFolder": "/workspace",
+  "remoteUser": "ubuntu",
+  "shutdownAction": "none",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/home/ubuntu/venv/bin/python"
+      }
+    }
+  }
+}
